@@ -130,7 +130,8 @@ function sumArrayBig_v3(a,b) {
 
 
 /* Making sum of multi-dimensional array with same structure, the number of items can be different
- * if corresponding item types do not match (different structures, ie. array correspond with number), null item is used 
+ * null item if corresponding item types do not match 
+ * (different structures, eg. a number in 'a' corresponds with an array in 'b') 
  *
  * - if 'b' is undefined, return 'a'
  * - if are not arrays then return 'a'+'b'
