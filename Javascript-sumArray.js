@@ -35,11 +35,11 @@ function sumArrayLinear_v2(a,b) {
  * map using only key value not the value of dummy Array
  *
  * NOTE: if the corresponding value does not exist, use 0
- * NOTE: the fill(0) is needed otherwise map does not work for unassigned array
+ * NOTE: the fill() - filling array with 'undefined' is needed otherwise map does not work for unassigned array
  * NOTE: _ is a variable, which will not be used
  */
 function sumArrayLinear_v3(a,b) {
-                return Array(Math.max(a.length,b.length)).fill(0).map((_,k) => (a[k]??0)+(b[k]??0));
+                return Array(Math.max(a.length,b.length)).fill().map((_,k) => (a[k]??0)+(b[k]??0));
 }
 /*
  * sumArrayLinear_v3([1,2],[2,3,4]) => [ 3, 5, 4 ]
