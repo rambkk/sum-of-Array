@@ -157,7 +157,24 @@ return typeof b==='undefined'?a:!Array.isArray(a)&&!Array.isArray(b)?a+b:Array.i
  * sumArrayBig_v4( [1,2,3,4]                    , [5,6,7] )              => [ 6, 8, 10, 4 ]
  * sumArrayBig_v4( [1,2,[3,4],[8,9,10]]         , [5,6,7] )              => [ 6, 8, null, [ 8, 9, 10 ] ]
  * sumArrayBig_v4( [1,[2,3],[10,11],[13,14],15] , [5,6,    [7,8,9],12] ) => [ 6, null, [ 17, 19, 9 ], null, 15 ] 
+ * sumArrayBig_v4([null],[1])                                            => [ 1 ]
  */
+/* more refined, with better handling of number and null*/
+function sumArrayBig_v5(a,b) {
+return typeof a === 'undefined' || typeof b === 'undefined' ?
+                                a??b :
+                                Array.isArray(a) && Array.isArray(b) ?
+                                        ([a,b]=a.length>b.length?[a,b]:[b,a])[0].map((v,k) => sumArrayBig_v5(a[k],b[k])) :
+                                        Number.isFinite(a) && Number.isFinite(b) ?
+                                                a+b :
+                                                null
+}
+/* or simply: */
+function sumArrayBig_v5(a,b) { return typeof a==='undefined'||typeof b==='undefined'?a??b:Array.isArray(a)&&Array.isArray(b)?([a,b]=a.length>b.length?[a,b]:[b,a])[0].map((v,k)=>sumArrayBig_v5(a[k],b[k])):Number.isFinite(a)&&Number.isFinite(b)?a+b:null; }
+/*
+ * sumArrayBig_v5([null],[1])                                            => [ null ]
+ */
+
 
 
 
