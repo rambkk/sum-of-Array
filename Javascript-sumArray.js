@@ -34,7 +34,7 @@ function sumArrayLinear_v2(a,b) {
  * Using dummy Array created with the greater length of the 2 arrays for map
  * map using only key value not the value of dummy Array
  *
- * NOTE: if the corresponding value does not exist, use 0
+ * NOTE: if the corresponding value does not exist, use 0 when adding
  * NOTE: the fill() - filling array with 'undefined' is needed otherwise map does not work for unassigned array
  * NOTE: _ is a variable, which will not be used
  */
@@ -53,7 +53,18 @@ function sumArrayLinear_v4(a,b) {
 /*
  * sumArrayLinear_v4([1,2],[2,3,4]) => [ 3, 5, 4 ]
  * sumArrayLinear_v4([1,2,3],[2,3]) => [ 3, 5, 3 ]
+ * 
+ * Another way to sum linear arrays using recursion
+ * NOTE: can work on more than 2 arrays as input
+ * NOTE: if the corresponding value does not exist, use 0 when adding
  */
+function sumArrayLinear_v5(...arrays) { 
+        return arrays.flat(1).length?[[...arrays].reduce((c,v) => c+(v.shift()??0),0),...sumArrayLinear_v5(...arrays)]:[];
+}
+/* sumArrayLinear_v5( [1,2]  , [2,3,4] ) => [ 3, 5, 4 ]
+ * sumArrayLinear_v5( [1,2,3], [2,3]   ) => [ 3, 5, 3 ]
+ */
+
 
 /* All the above functionalities are usable for dealing with multi-dimensional arrays 
  * by extending the function or using recursion 
@@ -83,8 +94,8 @@ function sumArrayRec_v1(a,b) {
 }
 /* sumArrayRec_v1( [1,2,[3,4,5],6] , [2,3,[4,5]] )       => [ 3, 5, [ 7, 9, 5 ], 6 ]
  * sumArrayRec_v1( [1,2,[3,4,5],6] , [2,3,[4,5],6,7,8] ) => [ 3, 5, [ 7, 9, 5 ], 12 ]
- * sumArrayRec_v1( [1,2,3]         , [2,3,[4,5]])        => [ 3, 5, "34,5" ]
- * sumArrayRec_v1( [1,2,[3,4],5]   , [2,3,4])            => [ 3, 5, [ 3, 4 ], 5 ]
+ * sumArrayRec_v1( [1,2,3]         , [2,3,[4,5]] )       => [ 3, 5, "34,5" ]
+ * sumArrayRec_v1( [1,2,[3,4],5]   , [2,3,4] )           => [ 3, 5, [ 3, 4 ], 5 ]
  */
 
 /* Sum of correponding values of multidimensional arrays 
@@ -153,7 +164,7 @@ return typeof b === 'undefined'
  * sumArrayBig_v4( [1,2,3,4]                    , [5,6,7] )              => [ 6, 8, 10, 4 ]
  * sumArrayBig_v4( [1,2,[3,4],[8,9,10]]         , [5,6,7] )              => [ 6, 8, null, [ 8, 9, 10 ] ]
  * sumArrayBig_v4( [1,[2,3],[10,11],[13,14],15] , [5,6,    [7,8,9],12] ) => [ 6, null, [ 17, 19, 9 ], null, 15 ] 
- * sumArrayBig_v4( [null]                       , [1] )                  => [ 1 ]
+ * sumArrayBig_v4( [null]                       , [1] )                  => [ 1 ]   ***INCORRECT, fixing in next function
  */
 /* more refined, with better handling of number and null*/
 function sumArrayBig_v5(a,b) {
@@ -168,22 +179,21 @@ return typeof a === 'undefined' || typeof b === 'undefined' ?
 /*
  * sumArrayBig_v5( [null]                       , [1] )                  => [ null ]
  */
-
-function sumArrays_v5(...a) {
-return  a.length==2 ?
-        typeof a[0] === 'undefined' || typeof a[1] === 'undefined' ?
-                                a[0]??a[1] :
-                                Array.isArray(a[0]) && Array.isArray(a[1]) ?
-                                        ([a[0],a[1]]=a[0].length>a[1].length?[a[0],a[1]]:[a[1],a[0]])[0].map((v,k) => sumArrays_v5(a[0][k],a[1][k])) :
-                                        Number.isFinite(a[0]) && Number.isFinite(a[1]) ?
-                                                a[0]+a[1] :
+function sumArrays_v5(...arrays) {
+return  arrays.reduce((a,b)=>
+        typeof a === 'undefined' || typeof b === 'undefined' ?
+                                a??b :
+                                Array.isArray(a) && Array.isArray(b) ?
+                                        ([a,b]=a.length>b.length?[a,b]:[b,a])[0].map((v,k) => sumArrays_v5(a[k],b[k])) :
+                                        Number.isFinite(a) && Number.isFinite(b) ?
+                                                a+b :
                                                 null
-        : 
-        a.reduce((c,v)=>sumArrays_v5(c,v),[])
+        )
 }
+
 /* or simply: */
-function sumArrays_v5(...a) {
-return  a.length==2?typeof a[0]==='undefined'||typeof a[1]==='undefined'?a[0]??a[1]:Array.isArray(a[0])&&Array.isArray(a[1])?([a[0],a[1]]=a[0].length>a[1].length?[a[0],a[1]]:[a[1],a[0]])[0].map((v,k)=>sumArrays_v5(a[0][k],a[1][k])):Number.isFinite(a[0])&&Number.isFinite(a[1])?a[0]+a[1]:null:a.reduce((c,v)=>sumArrays_v5(c,v),[]);
+function sumArrays_v5(...arrays) {
+return arrays.reduce((a,b)=>typeof a==='undefined'||typeof b==='undefined'?a??b:Array.isArray(a)&&Array.isArray(b)?([a,b]=a.length>b.length?[a,b]:[b,a])[0].map((v,k)=>sumArrays_v5(a[k],b[k])):Number.isFinite(a)&&Number.isFinite(b)?a+b:null);
 }
 /* sumArrays_v5( [1,2]       , [3,4]       , [5,6] )                     => [ 9, 12]
  * sumArrays_v5( [1,[2],3]   , [4,5,6,7]   , [[8],9] )                   => [ null, null, 9, 7 ]
