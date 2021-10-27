@@ -149,10 +149,6 @@ return typeof b === 'undefined'
                                                 ?([a,b]=a.length>b.length?[a,b]:[b,a])[0].map((v,k) => sumArrayBig_v4(v,b[k]))
                                                 :null
 }
-/* or simply: */
-function sumArrayBig_v4(a,b) { 
-return typeof b==='undefined'?a:!Array.isArray(a)&&!Array.isArray(b)?a+b:Array.isArray(a)&&Array.isArray(b)?([a,b]=a.length>b.length?[a,b]:[b,a])[0].map((v,k)=>sumArrayBig_v4(v,b[k])):null;
-}
 /* sumArrayBig_v4( [1] , 0 )                                             => null
  * sumArrayBig_v4( [1,2,3,4]                    , [5,6,7] )              => [ 6, 8, 10, 4 ]
  * sumArrayBig_v4( [1,2,[3,4],[8,9,10]]         , [5,6,7] )              => [ 6, 8, null, [ 8, 9, 10 ] ]
@@ -169,10 +165,29 @@ return typeof a === 'undefined' || typeof b === 'undefined' ?
                                                 a+b :
                                                 null
 }
-/* or simply: */
-function sumArrayBig_v5(a,b) { return typeof a==='undefined'||typeof b==='undefined'?a??b:Array.isArray(a)&&Array.isArray(b)?([a,b]=a.length>b.length?[a,b]:[b,a])[0].map((v,k)=>sumArrayBig_v5(a[k],b[k])):Number.isFinite(a)&&Number.isFinite(b)?a+b:null; }
 /*
  * sumArrayBig_v5([null],[1])                                            => [ null ]
+ */
+
+function sumArrays_v5(...a) {
+return  a.length==2 ?
+        typeof a[0] === 'undefined' || typeof a[1] === 'undefined' ?
+                                a[0]??a[1] :
+                                Array.isArray(a[0]) && Array.isArray(a[1]) ?
+                                        ([a[0],a[1]]=a[0].length>a[1].length?[a[0],a[1]]:[a[1],a[0]])[0].map((v,k) => sumArrays_v5(a[0][k],a[1][k])) :
+                                        Number.isFinite(a[0]) && Number.isFinite(a[1]) ?
+                                                a[0]+a[1] :
+                                                null
+        : 
+        a.reduce((c,v)=>sumArrayBig_v5(c,v),[])
+}
+/* or simply: */
+function sumArrays_v5(...a) {
+return  a.length==2?typeof a[0]==='undefined'||typeof a[1]==='undefined'?a[0]??a[1]:Array.isArray(a[0])&&Array.isArray(a[1])?([a[0],a[1]]=a[0].length>a[1].length?[a[0],a[1]]:[a[1],a[0]])[0].map((v,k)=>sumArrays_v5(a[0][k],a[1][k])):Number.isFinite(a[0])&&Number.isFinite(a[1])?a[0]+a[1]:null:a.reduce((c,v)=>sumArrayBig_v5(c,v),[]);
+}
+/* sumArrays_v5( [1,2]       , [3,4]       , [5,6] )                     => [ 9, 12]
+ * sumArrays_v5( [1,[2],3]   , [4,5,6,7]   , [[8],9] )                   => [ null, null, 9, 7 ]
+ * sumArrays_v5( [1,[1,2],3] , [2,[],[],4] , [3,[1,[5,5],3],1,1,[1,2]] ) => [ 6, [ 2, null, 3 ], null, 5, [ 1, 2] ]
  */
 
 
