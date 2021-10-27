@@ -59,7 +59,7 @@ function sumArrayLinear_v4(a,b) {
  * NOTE: if the corresponding value does not exist, use 0 when adding
  */
 function sumArrayLinear_v5(...arrays) { 
-        return arrays.flat(1).length?[[...arrays].reduce((c,v) => c+(v.shift()??0),0),...sumArrayLinear_v5(...arrays)]:[];
+        return arrays.flat().length?[arrays.reduce((c,v) => c+(v.shift()??0),0),...sumArrayLinear_v5(...arrays)]:[];
 }
 /* sumArrayLinear_v5( [1,2]  , [2,3,4] ) => [ 3, 5, 4 ]
  * sumArrayLinear_v5( [1,2,3], [2,3]   ) => [ 3, 5, 3 ]
@@ -67,19 +67,19 @@ function sumArrayLinear_v5(...arrays) {
 
 
 /* All the above functionalities are usable for dealing with multi-dimensional arrays 
- * by extending the function or using recursion 
+ * by extending with iterationn or recursion 
  */
 
 /* Using simple iteration for 2-dimension
  * Adding linear arrays OR 2-dimension array with same number of items (ignoring extra items in b) 
  * NOTE: ignoring extra item in b, using 0 for non-existing corresponding value in b
  */
-function sumArrayLinear2d(a,b) {
+function sumArray2d(a,b) {
                 return a.map((v,k) => Array.isArray(v)?v.map((w,j) =>w+(b[k][j]??0)):v+(b[k]??0));
 }
 /* 
- * sumArrayLinear2d( [1,2] , [2,3,4] ) => [ 3, 5 ] 
- * sumArrayLinear2d( [1,2,3,[4,5],6,7] , [2,3,4,[5,6],7] ) => [ 3, 5, 7, [ 9, 11 ], 13, 7 ]
+ * sumArray2d( [1,2] , [2,3,4] ) => [ 3, 5 ] 
+ * sumArray2d( [1,2,3,[4,5],6,7] , [2,3,4,[5,6],7] ) => [ 3, 5, 7, [ 9, 11 ], 13, 7 ]
  */
 
 
