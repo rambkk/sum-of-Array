@@ -58,17 +58,48 @@ function sumArrayLinear_v4(a,b) {
  * NOTE: can work on many arrays (more than 2)
  * NOTE: if the corresponding value does not exist, use 0 when adding
  */
-function sumArrayLinear_v5(...arrays) { 
-        return arrays.flat().length?[arrays.reduce((c,v) => c+(v.shift()??0),0),...sumArrayLinear_v5(...arrays)]:[];
+function sumArrayShift_v1(...arrays) { 
+        return arrays.flat().length?[arrays.reduce((c,v) => c+(v.shift()??0),0),...sumArrayShift_v1(...arrays)]:[];
 }
 /* sumArrayLinear_v5( [1,2]  , [2,3,4], [5,6,7,8] ) => [ 8, 11, 11, 8 ]
  * sumArrayLinear_v5( [1,2,3], [2,3], [1] ) => [ 4, 5, 3 ]
+ *
+ * Extending this to cover multi dimension arrays with same structure
+ * Arrays can have different sizes
  */
+function sumArrayShift_v2(...arrays) {
+        return arrays.flat(Infinity).length ?
+                                        [arrays.reduce((c,v,i,a) =>
+                                                Array.isArray(c) || (Array.isArray(v[0]) && (c=[])) ?
+                                                        c.push(v.shift()??0) && i==a.length-1?SumArrayShift_v2(...c):c
+                                                :
+                                                Number.isFinite(v[0])?(c??0)+(v.shift()??0):c
+                                        ,null)
+                                        ,...addArrays(...arrays)] :
+                                        [];
+}
+
+/* Extending further to return null when the structures do not match */
+function sumArrayShift_v3(...arrays) {
+        return arrays.flat(Infinity).length ?
+                                [arrays.filter(w => w.length).reduce((c,v,i,a) =>
+                                                Array.isArray(v[0]) && (Array.isArray(c) || (c===undefined && (c=[]))) ?
+                                                        c.push(v.shift()??0) && i==a.length-1 ?
+                                                                                                                sumArrayShift_v3(...c) :
+                                                                                                                c
+                                                :
+                                                Number.isFinite(v[0]) && (Number.isFinite(c)||c===undefined) ?
+                                                                                                                (c??0)+(v.shift()??0) :
+                                                                                                                v.shift()&&false||null
+                                ,undefined)
+                                ,...addArrays(...arrays)] :
+                                [];
+}
 
 
-/* All the above functionalities are usable for dealing with multi-dimensional arrays 
- * by extending with iterationn or recursion 
- */
+
+
+
 
 /* Using simple iteration for 2-dimension
  * Adding linear arrays OR 2-dimension array with same number of items (ignoring extra items in b) 
@@ -189,6 +220,36 @@ return arrays.reduce((a,b)=>typeof a==='undefined'||typeof b==='undefined'?a??b:
  * sumArrays_v5( [1,[2],3]   , [4,5,6,7]   , [[8],9] )                   => [ null, null, 9, 7 ]
  * sumArrays_v5( [1,[1,2],3] , [2,[],[],4] , [3,[1,[5,5],3],1,1,[1,2]] ) => [ 6, [ 2, null, 3 ], null, 5, [ 1, 2 ] ]
  */
+
+/* MAINLY REDUCE */
+/* Adding two linear arrays
+ * NOTE: if the corresponding value does not exist, use 0 when adding
+ */
+function sumArrays(a,b) {
+        return b.reduce((c,v,k,a) => (c[k]=(c[k]??0)+v)&&false||c,a);
+}
+
+/* Multiple linear arrays
+ * NOTE: can work on many arrays (more than 2)
+ * NOTE: if the corresponding value does not exist, use 0 when adding
+*/
+function sumArrays(...arrays) {
+        return arrays.reduce((d,w) => w.reduce((c,v,k,a) => (c[k]=(c[k]??0)+v)&&false||c,d));
+}
+
+/* Adding 2 multi dimension arrays, both must have same structure
+ * NOTE: if the corresponding value does not exist, use 0 when adding
+ */
+function sumArrays(a,b) {
+        return b.reduce((c,v,k,a) => (c[k]=Array.isArray(v)?sumArrays((c[k]??[]),v):(c[k]??0)+v)&&false||c,a);
+}
+
+/* Adding many multi dimension arrays, all must have same structure
+ * NOTE: if the corresponding value does not exist, use 0 when adding
+ */
+function sumArrays(...arrays) {
+        return arrays.reduce((d,w) => w.reduce((c,v,k,a) => (c[k]=Array.isArray(v)?sumArrays((c[k]??[]),v):(c[k]??0)+v)&&false||c,d));
+}
 
 
 
