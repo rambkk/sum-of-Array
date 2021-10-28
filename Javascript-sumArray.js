@@ -8,7 +8,14 @@
  * (c) Ram Narula You can use this information, kindly do give credit: github rambkk - Ram Narula - pluslab.net
  * Please drop a line to say hello and let me know what kind of project you are working on :-)
  */
-
+/* Using: reduce, map, shift, iteration, recursion
+ * summing linear arrays: 2 of same size, 2 of different sizes, multiple of different sizes
+ * summing multi dimension arrays: 2 of same size, 2 of different sizes, multiple of different sizes, 
+ * with difference in structures returning null
+ *
+ */
+ 
+ 
 /* Adding linear arrays with same number of items 
  * NOTE: ignoring extra item in 'b', NaN if corresponding value does not exist 
  */
