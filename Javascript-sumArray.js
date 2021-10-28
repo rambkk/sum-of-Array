@@ -61,7 +61,7 @@ function sumArrayLinear_v4(a,b) {
  * sumArrayLinear_v4([1,2],[2,3,4]) => [ 3, 5, 4 ]
  * sumArrayLinear_v4([1,2,3],[2,3]) => [ 3, 5, 3 ]
  * 
- * Another way to sum linear arrays using recursion
+ * Sum linear arrays using recursion and shift()
  * NOTE: can work on many arrays (more than 2)
  * NOTE: if the corresponding value does not exist, use 0 when adding
  */
@@ -72,13 +72,23 @@ function sumArrayShift_v1(...arrays) {
  * sumArrayLinear_v5( [1,2,3], [2,3], [1] ) => [ 4, 5, 3 ]
  *
  * Extending this to cover multi dimension arrays with same structure
- * Arrays can have different sizes
+ *
+ * NOTE: arrays can have different sizes but must be same structure
+ * NOTE: works on 2 arrays
+ * NOTE: if the corresponding value does not exist, use 0 when adding
  */
-function sumArrayShift_v2(...arrays) {
+function sumArrayShift_v20(a,b) {
+       return ((Array.isArray(a) && a.length)||(Array.isArray(b) && b.length)) && ((a??=[]) && (b??=[])) ?
+                [sumArrays(a.shift(),b.shift()),...sumArrayShift_v20(a,b)]:(a??0)+(b??0);
+}
+/*
+ * Arrays can have different sizes, but must have same structure
+ */
+function sumArrayShift_v30(...arrays) {
         return arrays.flat(Infinity).length ?
                                         [arrays.reduce((c,v,i,a) =>
                                                 Array.isArray(c) || (Array.isArray(v[0]) && (c=[])) ?
-                                                        c.push(v.shift()??0) && i==a.length-1?SumArrayShift_v2(...c):c
+                                                        c.push(v.shift()??0) && i==a.length-1?SumArrayShift_v30(...c):c
                                                 :
                                                 Number.isFinite(v[0])?(c??0)+(v.shift()??0):c
                                         ,null)
@@ -87,12 +97,12 @@ function sumArrayShift_v2(...arrays) {
 }
 
 /* Extending further to return null when the structures do not match */
-function sumArrayShift_v3(...arrays) {
+function sumArrayShift_v40(...arrays) {
         return arrays.flat(Infinity).length ?
                                 [arrays.filter(w => w.length).reduce((c,v,i,a) =>
                                                 Array.isArray(v[0]) && (Array.isArray(c) || (c===undefined && (c=[]))) ?
                                                         c.push(v.shift()??0) && i==a.length-1 ?
-                                                                                                                sumArrayShift_v3(...c) :
+                                                                                                                sumArrayShift_v40(...c) :
                                                                                                                 c
                                                 :
                                                 Number.isFinite(v[0]) && (Number.isFinite(c)||c===undefined) ?
