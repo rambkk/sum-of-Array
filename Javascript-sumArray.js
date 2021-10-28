@@ -119,12 +119,12 @@ function sumArrayShift_v40(...arrays) {
  * NOTE: if the corresponding value does not exist, use 0 when adding
  * NOTE: null when corresponding item types do not match
  */
-function sumArrays(...arrays) {
+function sumArrayShift_v50(...arrays) {
        return arrays.reduce((a,b) =>
-                typeof a==='undefined' || typeof b==='undefined' ?
-                        a??b :
+                typeof a==='undefined' || typeof b==='undefined'  ?
+                        a??b??[] :
                                 (Array.isArray(a) && Array.isArray(b)) && (a.length || b.length) ?
-                                        [sumArrays(a.shift(),b.shift()),...(a.length||b.length?sumArrays(a,b):[])] :
+                                        [sumArrays(a.shift(),b.shift()),...sumArrayShift_v50(a,b)??[]] :
                                         Number.isFinite(a)&&Number.isFinite(b) ?
                                                 a+b :
                                                 null
