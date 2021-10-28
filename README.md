@@ -49,9 +49,9 @@ Now, what if there are differences between the structure of the two arrays.
 `[1,[2,3],4]` and `[2,[3,4],[5,6]]`  
   
 This can be:  
-a) `[1,[5,7],4]`  
-b) `[1,[5,7],[5,6]]`  
-c) `[1,[5,7],X]`  
+a) `[3,[5,7],4]`  
+b) `[3,[5,7],[5,6]]`  
+c) `[3,[5,7],X]`  
   
 Examples in Javascript are in the files in this project with all the above approaches, mostly using `null` for
 flagging difference in the structures. The functions use several methods including map, reduce, shift, etc. for
