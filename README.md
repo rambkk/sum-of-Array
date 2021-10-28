@@ -4,7 +4,10 @@ Approaches for summing corresponding items in arrays
 **rambkk - pluslab.net - looking for impossible projects**
 ### ((Just fun things to think about. Do drop a line to say hello and let me know what kind of project you are working on, or if help is needed))
 
-There are several ways to get corresponding sum of arrays.
+There are several ways to get corresponding sum of arrays.\
+Adding respective numbers in arrays.\ 
+Adding arrays or adding two arrays.\
+Summing arrays.
 
 ## To sum arrays, some points to be thought of:
 1) Same structure: What to do with the extra item?
@@ -15,7 +18,7 @@ The correct answer depends on the objective of the program.
 
 Let's start.
 ```
-(X being something to indicate a problem eg. null, undefined, some custom data, etc.)
+(X being something to indicate a problem eg. null, false, some custom data, etc.)
 ```
 
 
@@ -36,9 +39,9 @@ c) `[3,5,7,X]`
   
 With extra item  
 `[1,[2,3]]` and `[2,[3,4],9]` -- OR -- `[1,[2,3],9]` and `[2,[3,4]]` -- both can be  
-a) `[1,[5,7]]`  
-b) `[1,[5,7],9]`  
-c) `[1,[5,7],X]`  
+a) `[3,[5,7]]`  
+b) `[3,[5,7],9]`  
+c) `[3,[5,7],X]`  
   
 (Similar to above)  
   
@@ -50,6 +53,12 @@ a) `[1,[5,7],4]`
 b) `[1,[5,7],[5,6]]`  
 c) `[1,[5,7],X]`  
   
-  
+Examples in Javascript are in the files in this project with all the above approaches, mostly using `null` for
+flagging difference in the structures. The functions use several methods including map, reduce, shift, etc. for
+adding corresponding numbers. There are some which abuses 'reduce' 🤭. 
+
+
+
+
 (c) Ram Narula You can use this information, kindly do give credit: github rambkk - Ram Narula - pluslab.net  
 Please drop a line to say hello and let me know what kind of project you are working on 😄
