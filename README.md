@@ -4,9 +4,9 @@ Approaches for summing corresponding items in arrays
 **rambkk - pluslab.net - looking for impossible projects**
 ### ((Just fun things to think about. Do drop a line to say hello and let me know what kind of project you are working on, or if help is needed))
 
-There are several ways to get corresponding sum of arrays.\
+There are several ways to get corresponding sum of arrays.\ 
 Adding respective numbers in arrays.\ 
-Adding arrays or adding two arrays.\
+Adding arrays or adding two arrays.\ 
 Summing arrays.
 
 ## To sum arrays, some points to be thought of:
