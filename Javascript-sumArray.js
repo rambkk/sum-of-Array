@@ -233,7 +233,7 @@ return arrays.reduce((a,b)=>typeof a==='undefined'||typeof b==='undefined'?a??b:
  * NOTE: if the corresponding value does not exist, use 0 when adding
  */
 function sumArrays(a,b) {
-        return b.reduce((c,v,k,a) => (c[k]=(c[k]??0)+v)&&false||c,a);
+        return b.reduce((c,v,k) => (c[k]=(c[k]??0)+v)&&false||c,a);
 }
 
 /* Multiple linear arrays
@@ -241,21 +241,21 @@ function sumArrays(a,b) {
  * NOTE: if the corresponding value does not exist, use 0 when adding
 */
 function sumArrays(...arrays) {
-        return arrays.reduce((d,w) => w.reduce((c,v,k,a) => (c[k]=(c[k]??0)+v)&&false||c,d));
+        return arrays.reduce((d,w) => w.reduce((c,v,k) => (c[k]=(c[k]??0)+v)&&false||c,d));
 }
 
 /* Adding 2 multi dimension arrays, both must have same structure
  * NOTE: if the corresponding value does not exist, use 0 when adding
  */
 function sumArrays(a,b) {
-        return b.reduce((c,v,k,a) => (c[k]=Array.isArray(v)?sumArrays((c[k]??[]),v):(c[k]??0)+v)&&false||c,a);
+        return b.reduce((c,v,k) => (c[k]=Array.isArray(v)?sumArrays((c[k]??[]),v):(c[k]??0)+v)&&false||c,a);
 }
 
 /* Adding many multi dimension arrays, all must have same structure
  * NOTE: if the corresponding value does not exist, use 0 when adding
  */
 function sumArrays(...arrays) {
-        return arrays.reduce((d,w) => w.reduce((c,v,k,a) => (c[k]=Array.isArray(v)?sumArrays((c[k]??[]),v):(c[k]??0)+v)&&false||c,d));
+        return arrays.reduce((d,w) => w.reduce((c,v,k) => (c[k]=Array.isArray(v)?sumArrays((c[k]??[]),v):(c[k]??0)+v)&&false||c,d));
 }
 
 
