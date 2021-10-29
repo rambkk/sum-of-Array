@@ -182,16 +182,15 @@ function sumArrayShift_v50(...arrays) {
  * NOTE: process many arrays 
  * NOTE: arrays can have different sizes but must be same structure
  * NOTE: if the corresponding value does not exist, use 0 when adding
- * NOTE: will not work properly if array structures are not same
+ * NOTE: null item if corresponding item types do not match 
  */
 function sumArrays(...a) {
         return a.flat(Infinity).length ?
+                        a.some(v => Array.isArray(v)) && !a.every(v=>Array.isArray(v))?null:
                         Number.isFinite(a[0]) ?
                                         a.shift()+(a.length?sumArrays(...a):0):
                                         [sumArrays(...a.reduce((c,v) => v.length?[...c,v.shift()]:c,[])),...sumArrays(...a)]:[]
 }
-
-
 
 
 
@@ -322,7 +321,8 @@ return arrays.reduce((a,b)=>typeof a==='undefined'||typeof b==='undefined'?a??b:
  * NOTE: if the corresponding value does not exist, use 0 when adding
  */
 function sumArrays(a,b) {
-        return b.reduce((c,v,k) => (c[k]=(c[k]??0)+v)&&false||c,a);
+        return b.reduce((c,v,k) => [...c.slice(0,k),((c[k]??0)+v),...c.slice(k+1)],a);
+
 }
 
 /* Multiple linear arrays
@@ -330,23 +330,23 @@ function sumArrays(a,b) {
  * NOTE: if the corresponding value does not exist, use 0 when adding
 */
 function sumArrays(...arrays) {
-        return arrays.reduce((d,w) => w.reduce((c,v,k) => (c[k]=(c[k]??0)+v)&&false||c,d));
+        return arrays.reduce((d,w) => w.reduce((c,v,k) => [...c.slice(0,k),((c[k]??0)+v),...c.slice(k+1)],d));
 }
+
 
 /* Adding 2 multi dimension arrays, both must have same structure
  * NOTE: if the corresponding value does not exist, use 0 when adding
  */
 function sumArrays(a,b) {
-        return b.reduce((c,v,k) => (c[k]=Array.isArray(v)?sumArrays((c[k]??[]),v):(c[k]??0)+v)&&false||c,a);
+        return b.reduce((c,v,k) => [...c.slice(0,k),Array.isArray(v)?sumArrays((c[k]??[]),v):(c[k]??0)+v,...c.slice(k+1)],a);
 }
 
 /* Adding many multi dimension arrays, all must have same structure
  * NOTE: if the corresponding value does not exist, use 0 when adding
  */
 function sumArrays(...arrays) {
-        return arrays.reduce((d,w) => w.reduce((c,v,k) => (c[k]=Array.isArray(v)?sumArrays((c[k]??[]),v):(c[k]??0)+v)&&false||c,d));
+        return arrays.reduce((d,w) => w.reduce((c,v,k) => [...c.slice(0,k),Array.isArray(v)?sumArrays((c[k]??[]),v):(c[k]??0)+v,...c.slice(k+1)],d));
 }
-
 
 
 
