@@ -17,42 +17,30 @@
 
 /* recursion without iteration for linear 2 arrays
  * NOTE: arrays can have different lengths
+ * clear recursion without much  processing in each step
  */
-function sumArrayLinearRec_v10(a,b) {
+function sumArrayRecursive2d_v10(a,b) {
        return typeof a==='undefined' || typeof b==='undefined' ? a??b :
-                (a.length||b.length) ? [sumArrayLinearRec_v10(a.shift(),b.shift()),...sumArrayLinearRec_v10(a,b)] :
+                (a.length||b.length) ? [sumArrayRecursive2d_v10(a.shift(),b.shift()),...sumArrayRecursive2d_v10(a,b)] :
                                         a+b
+}
+
+/* recursion without iteration for linear 2 arrays
+ * NOTE: arrays can have different lengths
+ * simple
+ */
+function sumArrays(a,b) {
+        return (a.length||b.length) ? [(a.shift()??0)+(b.shift()??0),...sumArrays(a,b)] : [];
 }
 
 /* recursion without iteration for many linear arrays
  * NOTE: arrays can have different lengths
+ * simple
  */
-function sumArrayLinearRec_v15(...a) {
+function sumArrays(...a) {
        return   a.length===2 ?
-                typeof a[0]==='undefined' || typeof a[1]==='undefined' ? a[0]??a[1] :
-                (a[0].length||a[1].length) ? [sumArrayLinearRec_v15(a[0].shift(),a[1].shift()),...sumArrayLinearRec_v15(a[0],a[1])] :
-                                        a[0]+a[1]
-                :
-                sumArrayLinearRec_v15(a.shift(),sumArrayLinearRec_v15(...a));
-}
-
-/* recursion without iteration for 2 linear arrays (alternate to above) 
- * NOTE: arrays can have different lengths
- */
-function sumArrayLinearRec_v20(a,b) {
-       return typeof a==='undefined' || typeof b==='undefined' ? a??b :
-                (a.length||b.length)? [(a.shift()??0)+(b.shift()??0),...sumArrayLinearRec_v20(a,b)] :
-                                        []
-}
-
-/* recursion without iteration for 2 multi dimension arrays 
- * NOTE: arrays can have different lengths
- * NOTE: arrays must have same structure
- */
-function sumArrays(a,b) {
-       return typeof a==='undefined' || typeof b==='undefined' ? a??b??[] :
-                a?.length||b?.length ? [sumArrays(a.shift(),b.shift()),...sumArrays(a,b)] :
-                                                a+b;
+                (a[0].length||a[1].length) ? [(a[0].shift()??0)+(a[1].shift()??0),...sumArrays(a[0],a[1])] : []
+                : sumArrays(a.shift(),sumArrays(...a));
 }
 
 /* recursion without iteration for many multi dimension arrays 
@@ -68,6 +56,10 @@ function sumArrays(...a) {
                 sumArrays(a.shift(),sumArrays(...a))
 
 }
+
+
+
+
 
 
 
