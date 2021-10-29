@@ -12,6 +12,7 @@ Summing arrays.
 ## To sum arrays, some points to be thought of:
 1) Same structure: What to do with the extra item?
 2) Different structure: What to do when this happens?
+3) What to do with empty array item?
 
 The correct answer depends on the objective of the program.  
 (NOTE: there could be other answers)
@@ -52,10 +53,15 @@ This can be:
 a) `[3,[5,7],4]`  
 b) `[3,[5,7],[5,6]]`  
 c) `[3,[5,7],X]`  
-  
+
+What to do when summing a blank array item to a number? ... something to think further
+
 Examples in Javascript are in the files in this project with all the above approaches, mostly using `null` for
 flagging difference in the structures. The functions use several methods including map, reduce, shift, etc. for
 adding corresponding numbers. There are some which abuses 'reduce' 🤭. 
+
+There are also some pure recursion in the Javascript example, making use of purely recursive calls without any iteration.\
+These are fun 🙃
 
 
 
