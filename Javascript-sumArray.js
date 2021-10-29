@@ -14,6 +14,37 @@
  * with difference in structures returning null
  *
  */
+
+/* recursion without iteration for linear 2 arrays
+ * NOTE: arrays can have different lengths
+ */
+function sumArrayLinearRec_v10(a,b) {
+       return typeof a==='undefined' || typeof b==='undefined' ? a??b :
+                (a.length||b.length) ? [sumArrayLinearRec_v10(a.shift(),b.shift()),...sumArrayLinearRec_v10(a,b)] :
+                                        a+b
+}
+
+/* recursion without iteration for many linear arrays
+ * NOTE: arrays can have different lengths
+ */
+function sumArrayLinearRec_v15(...a) {
+       return   a.length===2 ?
+                typeof a[0]==='undefined' || typeof a[1]==='undefined' ? a[0]??a[1] :
+                (a[0].length||a[1].length) ? [sumArrayLinearRec_v15(a[0].shift(),a[1].shift()),...sumArrayLinearRec_v15(a[0],a[1])] :
+                                        a[0]+a[1]
+                :
+                sumArrayLinearRec_v15(a.shift(),sumArrayLinearRec_v15(...a));
+}
+
+/* recursion without iteration for 2 linear arrays (alternate to above) 
+ * NOTE: arrays can have different lengths
+ */
+function sumArrayLinearRec_v20(a,b) {
+       return typeof a==='undefined' || typeof b==='undefined' ? a??b :
+                (a.length||b.length)? [(a.shift()??0)+(b.shift()??0),...sumArrayLinearRec_v20(a,b)] :
+                                        []
+}
+
  
  
 /* Adding linear arrays with same number of items 
