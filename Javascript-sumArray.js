@@ -45,8 +45,32 @@ function sumArrayLinearRec_v20(a,b) {
                                         []
 }
 
- 
- 
+/* recursion without iteration for 2 multi dimension arrays 
+ * NOTE: arrays can have different lengths
+ * NOTE: arrays must have same structure
+ */
+function sumArrays(a,b) {
+       return typeof a==='undefined' || typeof b==='undefined' ? a??b??[] :
+                a?.length||b?.length ? [sumArrays(a.shift(),b.shift()),...sumArrays(a,b)] :
+                                                a+b;
+}
+
+/* recursion without iteration for many multi dimension arrays 
+ * NOTE: arrays can have different lengths
+ * NOTE: arrays must have same structure
+ */
+function sumArrays(...a) {
+        return a.length===2 ?
+                typeof a[0]==='undefined' || typeof a[1]==='undefined' ? a[0]??a[1]??[] :
+                        a[0]?.length||a[1]?.length ? [test(a[0].shift(),a[1].shift()),...sumArrays(a[0],a[1])] :
+                                a[0]+a[1]
+                :
+                sumArrays(a.shift(),sumArrays(...a))
+
+}
+
+
+
 /* Adding linear arrays with same number of items 
  * NOTE: ignoring extra item in 'b', NaN if corresponding value does not exist 
  */
