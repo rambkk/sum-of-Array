@@ -50,11 +50,10 @@ function sumArrays(...a) {
 function sumArrays(...a) {
         return a.length===2 ?
                 typeof a[0]==='undefined' || typeof a[1]==='undefined' ? a[0]??a[1]??[] :
-                        a[0]?.length||a[1]?.length ? [test(a[0].shift(),a[1].shift()),...sumArrays(a[0],a[1])] :
+                        a[0]?.length||a[1]?.length ? [sumArrays(a[0].shift(),a[1].shift()),...sumArrays(a[0],a[1])] :
                                 a[0]+a[1]
                 :
                 sumArrays(a.shift(),sumArrays(...a))
-
 }
 
 
