@@ -185,7 +185,6 @@ function sumArrayShift_v50(...arrays) {
  * NOTE: will not work properly if array structures are not same
  */
 function sumArrays(...a) {
-        console.log(a)
         return a.flat(Infinity).length ?
                         Number.isFinite(a[0]) ?
                                         a.shift()+(a.length?sumArrays(...a):0):
