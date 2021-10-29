@@ -8,7 +8,7 @@
  * (c) Ram Narula You can use this information, kindly do give credit: github rambkk - Ram Narula - pluslab.net
  * Please drop a line to say hello and let me know what kind of project you are working on :-)
  */
-/* Using: reduce, map, shift, iteration, recursion
+/* Using: recursion, reduce, map, shift, iteration
  * summing linear arrays: 2 of same size, 2 of different sizes, multiple of different sizes
  * summing multi dimension arrays: 2 of same size, 2 of different sizes, multiple of different sizes, 
  * with difference in structures returning null
@@ -17,7 +17,7 @@
 
 /* recursion without iteration for linear 2 arrays
  * NOTE: arrays can have different lengths
- * clear recursion without much  processing in each step
+ * clear recursion with little processing in each step
  */
 function sumArrayRecursive2d_v10(a,b) {
        return typeof a==='undefined' || typeof b==='undefined' ? a??b :
@@ -43,7 +43,7 @@ function sumArrays(...a) {
                 : sumArrays(a.shift(),sumArrays(...a));
 }
 
-/* recursion without iteration for many multi dimension arrays 
+/* recursive function without iteration for many multi dimension arrays 
  * NOTE: arrays can have different lengths
  * NOTE: arrays must have same structure
  */
