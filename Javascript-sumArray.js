@@ -19,9 +19,9 @@
  * NOTE: arrays can have different lengths
  * clear recursion with little processing in each step
  */
-function sumArrayRecursive2d_v10(a,b) {
+function sumArrayRecursive1d_v10(a,b) {
        return typeof a==='undefined' || typeof b==='undefined' ? a??b :
-                (a.length||b.length) ? [sumArrayRecursive2d_v10(a.shift(),b.shift()),...sumArrayRecursive2d_v10(a,b)] :
+                (a.length||b.length) ? [sumArrayRecursive1d_v10(a.shift(),b.shift()),...sumArrayRecursive1d_v10(a,b)] :
                                         a+b
 }
 
