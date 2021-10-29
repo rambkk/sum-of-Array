@@ -159,7 +159,7 @@ function sumArrayShift_v40(...arrays) {
                                 [];
 }
 
-/* Proper shift() without reduce hack like above 
+/* shift() without reduce hack like above, works on a pair at a time 
  * NOTE: arrays can have different sizes but must be same structure
  * NOTE: works on 2 arrays
  * NOTE: if the corresponding value does not exist, use 0 when adding
@@ -177,6 +177,19 @@ function sumArrayShift_v50(...arrays) {
        )
 }
 
+/* shift() works on each columns of all arrays 
+ * NOTE: works on multi dimension arrays
+ * NOTE: process many arrays 
+ * NOTE: arrays can have different sizes but must be same structure
+ * NOTE: if the corresponding value does not exist, use 0 when adding
+ * NOTE: will not work properly if array structures are not same
+ */
+function sumArrays(...a) {
+        return a.flat(Infinity).length ?
+                        Number.isFinite(a[0]) ?
+                                        a.reduce((a,b) => a+b) :
+                                        [sumArrays(...a.reduce((c,v) => v.length?[...c,v.shift()]:c,[])),...sumArrays(...a)]:[]
+}
 
 
 
