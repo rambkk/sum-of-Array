@@ -192,8 +192,38 @@ function sumArrays(...a) {
                                         [sumArrays(...a.reduce((c,v) => v.length?[...c,v.shift()]:c,[])),...sumArrays(...a)]:[]
 }
 
+/* shift() , sum of array values, adding array items with same keys, recursive function
+ * NOTE: works on multi dimension arrays
+ * NOTE: process many arrays 
+ * NOTE: arrays can have different sizes but must be same structure
+ * NOTE: if the corresponding value does not exist, use 0 when adding
+ * NOTE: null item if corresponding item types do not match 
+ */
+function sumArrays(...a) {
+        return a.flat(Infinity).length ?
+                        a.some(v => Array.isArray(v)) && !a.every(v=>Array.isArray(v))?null:
+                        !Array.isArray(a[0]) ?
+                                        a.shift()+(a.length?sumArrays(...a):0):
+                                        [sumArrays(...arrayItem(...a)),...sumArrays(...a)]:[]
+}
 
 
+function arrayItem(...a) {
+        //return a.length ? a[0][0] ? [a[0].shift(),...arrayItem(...a.slice(1))] : [...arrayItem(...a.slice(1))] : [];
+        return a.length ? [  ...a[0].length?[a[0].shift()]:[] , ...arrayItem(...a.slice(1)) ]:[];
+}
+
+/* combining the 2 functions above into a single function by using boolean hack at the end of parameter
+ * recursive 2 branches
+ */
+function sumArrays(...a) {
+        return typeof a[a.length-1] ==='boolean' && a.pop() ? a.length ? [  ...a[0][0]?[a[0].shift()]:[] , ...sumArrays(...a.slice(1),true) ]:[]:
+         a.flat(Infinity).length ?
+                        a.some(v => Array.isArray(v)) && !a.every(v=>Array.isArray(v))?null:
+                        !Array.isArray(a[0]) ?
+                                        a.shift()+(a.length?sumArrays(...a):0):
+                                        [sumArrays(...sumArrays(...a,true)),...sumArrays(...a)]:[]
+}
 
 
 /* Using simple iteration for 2-dimension
