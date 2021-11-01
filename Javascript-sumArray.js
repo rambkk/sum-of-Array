@@ -237,6 +237,24 @@ function sumArrays(...a) {
 }
 
 /* 3 recursive functions working together 
+ * addItems get value from each sub-array item and add values together 
+ * array1Col remove 1st item from arrays and return the array of the removed items
+ * sumArrays just check if the item is an array and process accordngly
+ * NOTE: works on multi dimension arrays
+ * NOTE: process many arrays 
+ * NOTE: arrays can have different sizes but must be same structure
+ * NOTE: if the corresponding value does not exist, use 0 when adding
+ * NOTE: will not work properly if array structures do not match
+ */
+function addItems(...a) { return a.flat().length ?(a[0].shift()??0) + addItems(...a.slice(1)):0 }
+function arrayItem(...a) { return a.length ? [  ...a[0].length?[a[0].shift()]:[] , ...arrayItem(...a.slice(1)) ]:[]; }
+function sumArrays(...a) {
+        return !a.flat(Infinity).length?[]:
+                [ (!Array.isArray(a.flat()[0]) ?  addItems(...a) : sumArrays(...arrayItem(...a)))
+                        ,...sumArrays(...a) ]
+}
+
+/* 3 recursive functions working together 
  * addItems just add value of array values together 
  * array1Col remove 1st item from arrays and return the array of the removed items
  * sumArrays just check if the item is an array and process accordngly
