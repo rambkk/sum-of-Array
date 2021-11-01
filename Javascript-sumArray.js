@@ -55,12 +55,16 @@ function sumArrays(a,b) {
 }
 
 /* recursive function without iteration for many multi dimension arrays 
- * NOTE: arrays can have different lengths
- * NOTE: arrays must have same structure
+ * NOTE: arrays can have different sizes but must be same structure
+ * NOTE: works on many arrays
+ * NOTE: if the corresponding value does not exist, use 0 when adding
+ * NOTE: null when corresponding item types do not match / different structures
+ * NOTE: blank array '[]' from input array will be kept 
  */
 function sumArrays(...a) {
         return a.length===2 ?
                 typeof a[0]==='undefined' || typeof a[1]==='undefined' ? a[0]??a[1]??[] :
+                typeof a[0] !== typeof a[1]?null :
                         a[0]?.length||a[1]?.length ? [sumArrays(a[0].shift(),a[1].shift()),...sumArrays(a[0],a[1])] :
                                 a[0]+a[1]
                 :
@@ -176,7 +180,6 @@ function sumArrayShift_v40(...arrays) {
  * NOTE: if the corresponding value does not exist, use 0 when adding
  * NOTE: null when corresponding item types do not match / different structures
  * NOTE: blank array '[]' from input array will be kept 
- */
  */
 function sumArrays(...arrays) {
        return arrays.reduce((a,b) =>
