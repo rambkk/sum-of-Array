@@ -268,7 +268,6 @@ function sumArrays(...a) {
 function addItems(...a) { return a[0].length ?a[0].shift() + addItems(...a):0 }
 function array1Col(...a) { return a.length ? [  ...a[0].length?[a[0].shift()]:[] , ...array1Col(...a.slice(1)) ]:[]; }
 function sumArrays(...a) {
-  console.log(a);
   return !a.flat(Infinity).length?[]:
         [ (!Array.isArray(a.flat()[0]) ?  addItems(array1Col(...a)) : sumArrays(...array1Col(...a)))
                 , ...sumArrays(...a) ]
@@ -283,7 +282,6 @@ function sumArrays(...a) {
 function addItems(...a) { return a[0].length ?a[0].shift() + addItems(...a):0 }
 function array1Col(...a) { return a.length ? [  ...a[0].length?[a[0].shift()]:[] , ...array1Col(...a.slice(1)) ]:[]; }
 function sumArrays(...a) {
-  console.log(a);
   return !a.flat(Infinity).length?[]:
         a.some(v => Array.isArray(v[0])) && !a.every(v=>Array.isArray(v[0])||v[0]===undefined) && array1Col(...a)?[null,...sumArrays(...a)]:
         [ (!Array.isArray(a.flat()[0]) ?  addItems(array1Col(...a)) : sumArrays(...array1Col(...a)))
