@@ -43,6 +43,17 @@ function sumArrays(...a) {
                 : sumArrays(a.shift(),sumArrays(...a));
 }
 
+/* Making simple recusion above to work on multi dimension array
+ * This might look a bit complicated as it was designed for linear array
+ * and just adding recursion when item is an array */
+function sumArrays(a,b) {
+        return (a?.length||b?.length) ?
+                [(a&&Array.isArray(a[0]))||(b&&Array.isArray(b[0])) ?
+                        sumArrays(a.shift(),b.shift()) :
+                        (a?.shift()??0)+(b?.shift()??0),...sumArrays(a,b)]
+                : [];
+}
+
 /* recursive function without iteration for many multi dimension arrays 
  * NOTE: arrays can have different lengths
  * NOTE: arrays must have same structure
