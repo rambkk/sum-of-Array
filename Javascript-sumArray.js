@@ -278,7 +278,7 @@ function sumArrays(...a) {
  * NOTE: arrays can have different sizes but must be same structure
  * NOTE: if the corresponding value does not exist, use 0 when adding
  * NOTE: null item if corresponding item types do not match 
-*/
+ */
 function addItems(...a) { return a[0].length ?a[0].shift() + addItems(...a):0 }
 function array1Col(...a) { return a.length ? [  ...a[0].length?[a[0].shift()]:[] , ...array1Col(...a.slice(1)) ]:[]; }
 function sumArrays(...a) {
@@ -289,6 +289,30 @@ function sumArrays(...a) {
 }
 
 
+/* 3 recursive functions for adding multi dimensonal arrays with return null when structures are different
+ * NOTE: works on multi dimension arrays
+ * NOTE: process many arrays 
+ * NOTE: arrays can have different sizes but must be same structure
+ * NOTE: if the corresponding value does not exist, use 0 when adding
+ * NOTE: null item if corresponding item types do not match 
+ * NOTE: blank array '[]' from input array will be kept 
+ */
+function addItems(...a) { return a[0].length ?a[0].shift() + addItems(...a):0 }
+function array1Col(...a) { return a.length ? [  ...a[0].length?[a[0].shift()]:[] , ...array1Col(...a.slice(1)) ]:[]; }
+function sumArrays(...a) {
+return  !a.flat().length?[]:
+                [ ( !a.some(v => Array.isArray(v[0])) ? addItems(array1Col(...a)) : //none are array
+                    a.every(v=>Array.isArray(v[0])||v[0]===undefined) ? [...sumArrays(...array1Col(...a))] : //all are array
+                    array1Col(...a)&&false?null:null ) //else remove the column an return null
+                , ...sumArrays(...a) ];
+}
+/*
+ * JSON.stringify(sumArrays(
+ * [],
+ * [12,[2],[3,4,5,6, 7 ],[1],[2] ,555, 3,[1,[]]    ],
+ * [2 ,[4],[5,4,3,4, 7 ],[3], 6  ,  7, 8,[    ],[3]] )) => 
+ * [14,[6],[8,8,8,10,14],[4],null,562,11,[1,[]],[3]]
+ */
 
 /* Using simple iteration for 2-dimension
  * Adding linear arrays OR 2-dimension array with same number of items (ignoring extra items in b) 
