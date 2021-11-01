@@ -172,21 +172,30 @@ function sumArrayShift_v40(...arrays) {
 
 /* shift() without reduce hack like above, works on a pair at a time 
  * NOTE: arrays can have different sizes but must be same structure
- * NOTE: works on 2 arrays
+ * NOTE: works on many arrays
  * NOTE: if the corresponding value does not exist, use 0 when adding
- * NOTE: null when corresponding item types do not match
+ * NOTE: null when corresponding item types do not match / different structures
+ * NOTE: blank array '[]' from input array will be kept 
  */
-function sumArrayShift_v50(...arrays) {
+ */
+function sumArrays(...arrays) {
        return arrays.reduce((a,b) =>
                 typeof a==='undefined' || typeof b==='undefined'  ?
                         a??b??[] :
                                 (Array.isArray(a) && Array.isArray(b)) && (a.length || b.length) ?
-                                        [sumArrays(a.shift(),b.shift()),...sumArrayShift_v50(a,b)??[]] :
+                                        [sumArrays(a.shift(),b.shift()),...sumArrays(a,b)??[]] :
                                         Number.isFinite(a)&&Number.isFinite(b) ?
                                                 a+b :
                                                 null
        )
 }
+/* JSON.stringify(sumArrays(
+ * [3,1   ,23,[      ]],
+ * [4,1   , 4,[1,2,[]]],
+ * [2,[]           ] ))             =>
+ * [9,null,27,[1,2,[]]]
+ */
+
 
 /* shift() works on each columns of all arrays 
  * NOTE: works on multi dimension arrays
