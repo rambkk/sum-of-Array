@@ -253,6 +253,22 @@ function sumArrays(...a) {
                 [ (!Array.isArray(a.flat()[0]) ?  addItems(array1Col(...a)) : sumArrays(...array1Col(...a)))
                         , ...sumArrays(...a) ]
 }
+/* 3 recursive functions for adding multi dimensonal arrays with return null when structures are different
+ * NOTE: works on multi dimension arrays
+ * NOTE: process many arrays 
+ * NOTE: arrays can have different sizes but must be same structure
+ * NOTE: if the corresponding value does not exist, use 0 when adding
+ * NOTE: null item if corresponding item types do not match 
+*/
+function addItems(...a) { return a[0].length ?a[0].shift() + addItems(...a):0 }
+function array1Col(...a) { return a.length ? [  ...a[0].length?[a[0].shift()]:[] , ...arrayItem(...a.slice(1)) ]:[]; }
+function sumArrays(...a) {
+  return !a.flat(Infinity).length?[]:
+        a.some(v => Array.isArray(v[0])) && !a.every(v=>Array.isArray(v[0])||v[0]===undefined) && array1Col(...a)?[null,...sumArrays(...a)]:
+        [ (!Array.isArray(a.flat()[0]) ?  addItems(array1Col(...a)) : sumArrays(...array1Col(...a))) 
+                , ...sumArrays(...a) ]
+}
+
 
 
 /* Using simple iteration for 2-dimension
