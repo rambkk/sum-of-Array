@@ -183,7 +183,7 @@ function sumArrayShift_v40(...arrays) {
  */
 function sumArrays(...arrays) {
        return arrays.reduce((a,b) =>
-                typeof a==='undefined' || typeof b==='undefined'  ?
+                typeof a==='undefined' || typeof b==='undefined' || (a.length===0 && b.length===0) ?
                         a??b??[] :
                                 (Array.isArray(a) && Array.isArray(b)) && (a.length || b.length) ?
                                         [sumArrays(a.shift(),b.shift()),...sumArrays(a,b)??[]] :
