@@ -312,7 +312,7 @@ function sumArrays(...a) {
 return  !a.flat().length?[]:
                 [ ( !a.some(v => Array.isArray(v[0])) ? addItems(array1Col(...a)) : //none are array
                     a.every(v=>Array.isArray(v[0])||v[0]===undefined) ? [...sumArrays(...array1Col(...a))] : //all are array
-                    array1Col(...a)&&false?null:null ) //else remove the column an return null
+                    array1Col(...a)&&false?null:null ) //else remove the column and return null
                 , ...sumArrays(...a) ];
 }
 /*
