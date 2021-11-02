@@ -379,21 +379,43 @@ function sumArrays(...a) { return  !a.some(v=>v.length)?[]: [ doItems(...array1C
  * NOTE: blank array '[]' from input array will be kept 
  * NOTE: can work with array with holes in it
  */
+function addItems(...a) { return a.length ?(a.shift()??0) + addItems(...a):0 }
 function doItems(...a) {
 return          a.every(v=> typeof v==='undefined') ? undefined :       
                 a.every(v=> Array.isArray(v) || typeof v==='undefined') ? [...sumArrays(...a)] : //all are array
-                a.every(v=>!Array.isArray(v) || typeof v==='undefined') ? addItems(...a) : //none are array
+                a.every(v=>!Array.isArray(v)) ? addItems(...a) : //none are array
                 null; //else null
 }
 function array1Col(...a) { return a.length ? [  ...a[0]?.length?[a[0].shift()]:[] , ...array1Col(...a.slice(1)) ]:[]; }
 function sumArrays(...a) { return  !a.some(v=>v?.length)?[]: [ doItems(...array1Col(...a)) , ...sumArrays(...a) ]; }
-function addItems(...a) { return a.length ?(a.shift()??0) + addItems(...a):0 }
 /* sumArrays(
  * [ 1,          , 8,[9],[3]    ,[],[]],
  * [ 1,          ,  ,   ,[3,4,5],[]   ],
- * [ 2,          ,  ,   ,       ,[]   ]  )) =>
+ * [ 2,          ,  ,   ,       ,[]   ]  ) =>
  * ====================================
- * [ 4,      null, 8,[9],[6,4,5],[],[]]
+ * [ 4, undefined, 8,[9],[6,4,5],[],[]]
+ */
+/* one column at a time, handle array with hole, using map and 
+ * NOTE: arrays can have different sizes but must be same structure
+ * NOTE: works on many arrays
+ * NOTE: if the corresponding value does not exist, use 0 when adding
+ * NOTE: null when corresponding item types do not match / different structures
+ * NOTE: blank array '[]' from input array will be kept 
+ * NOTE: can work with array with holes in it
+ */
+function sumArrays(...a) { 
+return  a.every (v =>  typeof v==='undefined')?undefined
+        :a.every(v =>  Array.isArray(v) || typeof v==='undefined') ?
+                                a.flat().length ? [ sumArrays(...a.map(v => v.shift()).filter(v => v)), ...sumArrays(...a) ] : []
+        :a.every(v => !Array.isArray(v)) ? a.shift() + (a.length ? sumArrays(...a) : 0)
+        :null
+}
+/* sumArrays(
+ * [ 1,          , 8,[9],[3]    ,[],[]],
+ * [ 1,          ,  ,   ,[3,4,5],[]   ],
+ * [ 2,          ,  ,   ,       ,[]   ]  ) =>
+ * ====================================
+ * [ 4, undefined, 8,[9],[6,4,5],[],[]]
  */
 
 /* Using simple iteration for 2-dimension
