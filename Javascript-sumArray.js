@@ -326,6 +326,32 @@ return  !a.flat().length?[]:
  * [14,[6],[8,8,8,10,14],[4],null,562,11,[1,[]],[3]]
  */
 
+/* 4 recursive functions for adding multi dimensonal arrays with return null when structures are different
+ * exact a column and process it then next
+ * NOTE: works on multi dimension arrays
+ * NOTE: process many arrays 
+ * NOTE: arrays can have different sizes but must be same structure
+ * NOTE: if the corresponding value does not exist, use 0 when adding
+ * NOTE: null item if corresponding item types do not match 
+ * NOTE: blank array '[]' from input array will be kept 
+ */
+function addItems(...a) { return a.length ?a.shift() + addItems(...a):0 }
+function doItems(...a) {
+return          a.every(v=> Array.isArray(v)) ? [...sumArrays(...a)] : //all are array
+                a.every(v=>!Array.isArray(v)) ? addItems(...a) : //none are array
+                null; //else null
+}
+function array1Col(...a) { return a.length ? [  ...a[0].length?[a[0].shift()]:[] , ...array1Col(...a.slice(1)) ]:[]; }
+function sumArrays(...a) { return  !a.some(v=>v.length)?[]: [ doItems(...array1Col(...a)) , ...sumArrays(...a) ]; }
+/* JSON.stringify(sumArrays(
+ * [1,[1,[3,5]],2,3      ,[4],[] ,2          ],
+ * [1,[1,[]]   ,3,[     ],[] ,[3],8 ,1,2,[],9],
+ * [1,2        ,3,[4,1,2]                    ] )) =>
+ * ===========================================
+ * [3,null     ,8,null   ,[4],[3],10,1,2,[],9]
+ */
+
+
 /* Using simple iteration for 2-dimension
  * Adding linear arrays OR 2-dimension array with same number of items (ignoring extra items in b) 
  * NOTE: ignoring extra item in b, using 0 for non-existing corresponding value in b
