@@ -443,6 +443,7 @@ function doItems(a,b) {
  */
 function doItems(...a) {
 return          a.includes(null) ? null :
+                a.every(v=> typeof v==='undefined') ? undefined : //all are undefined
                 a.every(v=> Array.isArray(v)||typeof v==='undefined') ? [...sumArrays(...a)] : //all are array
                 a.every(v=>!Array.isArray(v)||typeof v==='undefined') ? addItems(...a) : //none are array
                 null; //else null
