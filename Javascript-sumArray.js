@@ -442,13 +442,19 @@ function doItems(a,b) {
  * NOTE: blank array '[]' from input array will be kept 
  */
 function doItems(...a) {
-return          a.includes(null) ? null : //if entry is null, just return null
+return          a.includes(null) ? null :
                 a.every(v=> Array.isArray(v)||typeof v==='undefined') ? [...sumArrays(...a)] : //all are array
                 a.every(v=>!Array.isArray(v)||typeof v==='undefined') ? addItems(...a) : //none are array
                 null; //else null
 }
 function addItems(...a) { return a.length ?(a.shift()??0) + addItems(...a):0 }
 function sumArrays(a,b) { return Array.isArray(b) && ([a,b]=a.length>b.length?[a,b]:[b,a])?a.map((v,k) => doItems(v,b[k])):a; }
+/* sumArrays(
+ * [1,[1,[3,5]],0,3   ,[4],[] ,2 ,[1] ,2,3],
+ * [1,[1,[   ]],3,[]  ,[] ,[3],8 ,1   ,2,2]) =>
+ * =========================================
+ * [2,[2,[3,5]],3,null,[4],[3],10,null,4,5]
+ */
 
 
 
