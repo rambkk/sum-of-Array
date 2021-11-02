@@ -81,7 +81,7 @@ function sumArrays(...a) {
  */
 function sumArrays(...a) {
 return a.length===2 ?
-        a[0]===null || a[1] ===null ? null :
+        a[0]===null || a[1]===null ? null :
         typeof a[0]==='undefined' && typeof a[1]==='undefined'?undefined  : //both are undefined, return undefined
         typeof a[0]==='undefined' || typeof a[1]==='undefined'?a[0]??a[1] : //one is undefined,   return the other one
         typeof a[0] !== typeof a[1]?null : //different types, return null
@@ -98,10 +98,6 @@ return a.length===2 ?
  * [ 4, undefined, 8,[9],[6,4,5],[],[]]
  */
   
-
-
-
-
 
 
 
@@ -376,7 +372,30 @@ function sumArrays(...a) { return  !a.some(v=>v.length)?[]: [ doItems(...array1C
  * ===========================================
  * [3,null     ,8,null   ,[4],[3],10,1,2,[],9]
  */
-
+/* one column at a time, handle array with hole
+ * NOTE: arrays can have different sizes but must be same structure
+ * NOTE: works on many arrays
+ * NOTE: if the corresponding value does not exist, use 0 when adding
+ * NOTE: null when corresponding item types do not match / different structures
+ * NOTE: blank array '[]' from input array will be kept 
+ * NOTE: can work with array with holes in it
+ */
+function doItems(...a) {
+return          a.every(v=> typeof v==='undefined') ? undefined :       
+                a.every(v=> Array.isArray(v) || typeof v==='undefined') ? [...sumArrays(...a)] : //all are array
+                a.every(v=>!Array.isArray(v) || typeof v==='undefined') ? addItems(...a) : //none are array
+                null; //else null
+}
+function array1Col(...a) { return a.length ? [  ...a[0]?.length?[a[0].shift()]:[] , ...array1Col(...a.slice(1)) ]:[]; }
+function sumArrays(...a) { return  !a.some(v=>v?.length)?[]: [ doItems(...array1Col(...a)) , ...sumArrays(...a) ]; }
+function addItems(...a) { return a.length ?(a.shift()??0) + addItems(...a):0 }
+/* sumArrays(
+ * [ 1,          , 8,[9],[3]    ,[],[]],
+ * [ 1,          ,  ,   ,[3,4,5],[]   ],
+ * [ 2,          ,  ,   ,       ,[]   ]  )) =>
+ * ====================================
+ * [ 4,      null, 8,[9],[6,4,5],[],[]]
+ */
 
 /* Using simple iteration for 2-dimension
  * Adding linear arrays OR 2-dimension array with same number of items (ignoring extra items in b) 
