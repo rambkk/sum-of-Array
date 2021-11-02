@@ -251,12 +251,11 @@ function sumArrays(...a) {
                         a.some(v => Array.isArray(v)) && !a.every(v=>Array.isArray(v))?null:
                         !Array.isArray(a[0]) ?
                                         a.shift()+(a.length?sumArrays(...a):0):
-                                        [sumArrays(...arrayItem(...a)),...sumArrays(...a)]:[]
+                                        [sumArrays(...array1Col(...a)),...sumArrays(...a)]:[]
 }
-function arrayItem(...a) {
-        //return a.length ? a[0][0] ? [a[0].shift(),...arrayItem(...a.slice(1))] : [...arrayItem(...a.slice(1))] : [];
-        return a.length ? [  ...a[0].length?[a[0].shift()]:[] , ...arrayItem(...a.slice(1)) ]:[];
-}
+
+//return a.length ? a[0][0] ? [a[0].shift(),...arrayItem(...a.slice(1))] : [...arrayItem(...a.slice(1))] : [];
+function array1Col(...a) { return a.length ? [  ...a[0].length?[a[0].shift()]:[] , ...array1Col(...a.slice(1)) ]:[]; }
 
 /* combining the 2 functions above into a single function by using boolean hack at the end of parameter
  * recursive 2 branches
