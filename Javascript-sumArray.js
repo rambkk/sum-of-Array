@@ -394,6 +394,17 @@ function sumArrayBig_v3(a,b) {
  * sumArrayBig_v2( [1,2,[3,4],5,[1]]   , [2,3,[4],5,[6,7,8],[5,6]] )  => [ 3, 5, [ 7, 4 ] , 10, [ 7, 7, 8 ], [ 5, 6 ]  ]
  * sumArrayBig_v3( [1,2,[3,4],5,[1]]   , [2,3,[4],5,[6,7,8],[5,6]] )  => [ 3, 5, [ 7, 4 ] , 10, [ 7, 7, 8 ], [ 5, 6 ]  ]
  */
+/* splitting the above function into two parts, calling a separate function for dealing with each part */
+function sumArrays(a,b) {
+  return Array.isArray(b) && ([a,b]=a.length>b.length?[a,b]:[b,a])?a.map((v,k) => doItems(v,b[k])):a;
+}
+function doItems(a,b) {
+  return [a,b].some(v=>v===null) ? null : //if any is null then return null
+         [typeof a,typeof b].includes('undefined') || [a.length,b.length].every(v=>v===0) ? a??b??[] : //if either is undefined return a or b, [] if both are [] 
+         [a,b].every(v=> Array.isArray(v)) ? sumArrays(a,b) : //make recursive call if both are arrays
+         typeof a===typeof b? a+b : //if both are same type, do something, this just adds
+         null //otherwise return null --- usually when the a and b are data of different types
+}
 
 
 /* Making sum of multi-dimensional array with same structure, the number of items can be different
