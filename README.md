@@ -7,12 +7,13 @@ Approaches for summing corresponding items in arrays
 There are several ways to get corresponding sum of arrays.\
 Adding respective numbers in arrays.\
 Adding arrays or adding two arrays.\
-Summing arrays.
+Summing arrays, sum two arrays, sum many arrays\
 
 ## To sum arrays, some points to be thought of:
 1) Same structure: What to do with the extra item?
 2) Different structure: What to do when this happens?
 3) What to do with empty array item?
+4) What to do with blank (array with hole) items
 
 The correct answer depends on the objective of the program.  
 (NOTE: there could be other answers)
@@ -55,8 +56,8 @@ b) `[3,[5,7],[5,6]]`
 c) `[3,[5,7],X]`  
 
 What to do when summing a blank item (array with hole) to a number or empty array to empty array?\
-... something to think further
-`[3,   ,[4],5,[]]` and `[2,7,5,5]`    sum =  `[5,7  ,X,10,[]]`
+... something to think further\
+`[3,   ,[4],5,[]]` and `[2,7,5,5]`    sum =  `[5,7  ,X,10,[]]`\
 `[3,[9],[4],[],5]` and `[2, ,[5],[]]` sum =  `[5,[9],[9],[],5]`
 
 
