@@ -432,6 +432,26 @@ function doItems(a,b) {
          null //otherwise return null --- usually when the a and b are data of different types
 }
 
+/* 3 functions recursion
+ * Just like above, just more clear 
+ * NOTE: works on multi dimension arrays
+ * NOTE: process two arrays 
+ * NOTE: arrays can have different sizes but must be same structure
+ * NOTE: if the corresponding value does not exist, use 0 when adding
+ * NOTE: null item if corresponding item types do not match 
+ * NOTE: blank array '[]' from input array will be kept 
+ */
+function doItems(...a) {
+return          a.includes(null) ? null : //if entry is null, just return null
+                a.every(v=> Array.isArray(v)||typeof v==='undefined') ? [...sumArrays(...a)] : //all are array
+                a.every(v=>!Array.isArray(v)||typeof v==='undefined') ? addItems(...a) : //none are array
+                null; //else null
+}
+function addItems(...a) { return a.length ?(a.shift()??0) + addItems(...a):0 }
+function sumArrays(a,b) { return Array.isArray(b) && ([a,b]=a.length>b.length?[a,b]:[b,a])?a.map((v,k) => doItems(v,b[k])):a; }
+
+
+
 
 /* Making sum of multi-dimensional array with same structure, the number of items can be different
  * null item if corresponding item types do not match 
