@@ -71,6 +71,34 @@ function sumArrays(...a) {
                 sumArrays(a.shift(),sumArrays(...a))
 }
 
+/* improvement from the above function, recursive function, very simple
+ * NOTE: arrays can have different sizes but must be same structure
+ * NOTE: works on many arrays
+ * NOTE: if the corresponding value does not exist, use 0 when adding
+ * NOTE: null when corresponding item types do not match / different structures
+ * NOTE: blank array '[]' from input array will be kept 
+ * NOTE: can work with array with holes in it
+ */
+function sumArrays(...a) {
+return a.length===2 ?
+        a[0]===null || a[1] ===null ? null :
+        typeof a[0]==='undefined' && typeof a[1]==='undefined'?undefined  : //both are undefined, return undefined
+        typeof a[0]==='undefined' || typeof a[1]==='undefined'?a[0]??a[1] : //one is undefined,   return the other one
+        typeof a[0] !== typeof a[1]?null : //different types, return null
+        a[0].length===0 && a[1].length===0 ? [] : //both are empty arrays, return []
+        a[0]?.length||a[1]?.length ? [sumArrays(a[0].shift(),a[1].shift()),...sumArrays(a[0],a[1])] :
+               a[0]+a[1]
+        : sumArrays(a.shift(),sumArrays(...a))
+}
+/* sumArrays(
+ * [ 1,          , 8,[9],[3]    ,[],[]],
+ * [ 1,          ,  ,   ,[3,4,5],[]   ],
+ * [ 2,          ,  ,   ,       ,[]   ] ) =>
+ * ====================================
+ * [ 4, undefined, 8,[9],[6,4,5],[],[]]
+ */
+  
+
 
 
 
@@ -229,8 +257,6 @@ function sumArrays(...a) {
                                         a.shift()+(a.length?sumArrays(...a):0):
                                         [sumArrays(...arrayItem(...a)),...sumArrays(...a)]:[]
 }
-
-
 function arrayItem(...a) {
         //return a.length ? a[0][0] ? [a[0].shift(),...arrayItem(...a.slice(1))] : [...arrayItem(...a.slice(1))] : [];
         return a.length ? [  ...a[0].length?[a[0].shift()]:[] , ...arrayItem(...a.slice(1)) ]:[];
