@@ -54,11 +54,18 @@ a) `[3,[5,7],4]`
 b) `[3,[5,7],[5,6]]`  
 c) `[3,[5,7],X]`  
 
-What to do when summing a blank array item to a number? ... something to think further
+What to do when summing a blank item (array with hole) to a number or empty array to empty array?\
+... something to think further
+`[3,   ,[4],5,[]]` and `[2,7,5,5]`    sum =  `[5,7  ,X,10,[]]`
+`[3,[9],[4],[],5]` and `[2, ,[5],[]]` sum =  `[5,[9],[9],[],5]`
+
+
 
 Examples in Javascript are in the files in this project with all the above approaches, mostly using `null` for
 flagging difference in the structures. The functions use several methods including map, reduce, shift, etc. for
 adding corresponding numbers. There are some which abuses 'reduce' 🤭. 
+
+'undefined' has to be handled with care and it's not supported by JSON (EMCA-404)
 
 There are also some pure recursion in the Javascript example, making use of purely recursive calls without any iteration.\
 These are fun 🙃
