@@ -169,32 +169,32 @@ function sumArrayShift_v20(a,b) {
 /*
  * Arrays can have different sizes, but must have same structure
  */
-function sumArrayShift_v30(...arrays) {
+function sumArrays(...arrays) {
         return arrays.flat(Infinity).length ?
                                         [arrays.reduce((c,v,i,a) =>
                                                 Array.isArray(c) || (Array.isArray(v[0]) && (c=[])) ?
-                                                        c.push(v.shift()??0) && i==a.length-1?SumArrayShift_v30(...c):c
+                                                        c.push(v.shift()??0) && i==a.length-1?sumArray(...c):c
                                                 :
                                                 Number.isFinite(v[0])?(c??0)+(v.shift()??0):c
                                         ,null)
-                                        ,...addArrays(...arrays)] :
+                                        ,...sumArrays(...arrays)] :
                                         [];
 }
 
 /* Extending further to return null when the structures do not match */
-function sumArrayShift_v40(...arrays) {
+function sumArrays(...arrays) {
         return arrays.flat(Infinity).length ?
                                 [arrays.filter(w => w.length).reduce((c,v,i,a) =>
                                                 Array.isArray(v[0]) && (Array.isArray(c) || (c===undefined && (c=[]))) ?
                                                         c.push(v.shift()??0) && i==a.length-1 ?
-                                                                                                                sumArrayShift_v40(...c) :
+                                                                                                                sumArrays(...c) :
                                                                                                                 c
                                                 :
                                                 Number.isFinite(v[0]) && (Number.isFinite(c)||c===undefined) ?
                                                                                                                 (c??0)+(v.shift()??0) :
                                                                                                                 v.shift()&&false||null
                                 ,undefined)
-                                ,...addArrays(...arrays)] :
+                                ,...sumArrays(...arrays)] :
                                 [];
 }
 
