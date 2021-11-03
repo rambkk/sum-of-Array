@@ -406,7 +406,7 @@ function sumArrays(...a) { return  !a.some(v=>v?.length)?[]: [ doItems(...array1
 function sumArrays(...a) { 
 return  a.every (v =>  typeof v==='undefined')?undefined
         :a.every(v =>  Array.isArray(v) || typeof v==='undefined') ?
-                                a.flat().length ? [ sumArrays(...a.map(v => v.shift()).filter(v => v)), ...sumArrays(...a) ] : []
+                                a.flat().length ? [ sumArrays(...a.map(v => v.shift()).filter(v => typeof v!=='undefined')), ...sumArrays(...a) ] : []
         :a.every(v => !Array.isArray(v)) ? a.shift() + (a.length ? sumArrays(...a) : 0)
         :null
 }
