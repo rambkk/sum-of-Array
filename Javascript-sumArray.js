@@ -254,14 +254,14 @@ function sumArrays(...a) {
                                         [sumArrays(...array1Col(...a)),...sumArrays(...a)]:[]
 }
 
-//return a.length ? a[0][0] ? [a[0].shift(),...arrayItem(...a.slice(1))] : [...arrayItem(...a.slice(1))] : [];
+//return a.length ? a[0].length ? [a[0].shift(),...arrayItem(...a.slice(1))] : [...arrayItem(...a.slice(1))] : [];
 function array1Col(...a) { return a.length ? [  ...a[0].length?[a[0].shift()]:[] , ...array1Col(...a.slice(1)) ]:[]; }
 
 /* combining the 2 functions above into a single function by using boolean hack at the end of parameter
  * recursive 2 branches
  */
 function sumArrays(...a) {
-        return typeof a[a.length-1] ==='boolean' && a.pop() ? a.length ? [  ...a[0][0]?[a[0].shift()]:[] , ...sumArrays(...a.slice(1),true) ]:[]:
+        return typeof a[a.length-1] ==='boolean' && a.pop() ? a.length ? [  ...a[0].length?[a[0].shift()]:[] , ...sumArrays(...a.slice(1),true) ]:[]:
          a.flat(Infinity).length ?
                         a.some(v => Array.isArray(v)) && !a.every(v=>Array.isArray(v))?null:
                         !Array.isArray(a[0]) ?
